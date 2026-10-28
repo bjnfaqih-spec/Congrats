@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Untuk Fenisa</title>
+<style>
+:root{--ink:#293b35;--cream:#fffaf4;--sage:#6d9388;--mint:#e5f1eb;--gold:#e8bd70;--blue:#d9eaf4}
+*{box-sizing:border-box}body{margin:0;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px;font-family:Arial,sans-serif;color:var(--ink);background:radial-gradient(circle at 10% 10%,#eaf5ef,transparent 35%),radial-gradient(circle at 90% 90%,#e4eef6,transparent 32%),var(--cream);overflow-x:hidden}
+#localVideo{display:none}.container{width:min(760px,100%);position:relative;z-index:2;text-align:center;padding:clamp(24px,5vw,48px);border:1px solid #fff;background:rgba(255,255,255,.82);border-radius:28px;box-shadow:0 18px 60px #314b3b18;backdrop-filter:blur(10px)}
+h1{font-family:Georgia,serif;font-size:clamp(42px,8vw,72px);line-height:1.02;margin:24px 0;color:var(--ink);letter-spacing:-2px}.quote{font-family:Georgia,serif;font-style:italic;font-size:clamp(21px,4vw,30px);margin:12px auto 22px}.quote small{display:block;font:16px Arial,sans-serif;color:#72867f;margin-top:10px}
+.intro-text{font-size:clamp(16px,2.7vw,21px);line-height:1.8;color:#657a72;max-width:560px;margin:0 auto 24px}button{border:0;border-radius:40px;padding:15px 26px;font-size:16px;font-weight:bold;cursor:pointer;background:var(--ink);color:white;box-shadow:0 10px 25px #293b3522}button:hover{transform:translateY(-2px)}.player{display:none}.player.active{display:block;animation:fade .35s ease}.message-box{min-height:200px;display:flex;align-items:center;justify-content:center;padding:24px 4px;position:relative}#lyricText{font-family:Georgia,serif;font-size:clamp(25px,5vw,42px);line-height:1.4;font-weight:bold;overflow-wrap:anywhere}.show{animation:textIn .35s ease both}@keyframes textIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}@keyframes fade{from{opacity:0}to{opacity:1}}
+.progress{height:5px;border-radius:10px;background:#e5ece7;overflow:hidden;margin:8px 0 12px}.bar{height:100%;width:0;background:linear-gradient(90deg,#6d9388,#e8bd70)}.times{display:flex;justify-content:space-between;font-size:12px;color:#81918a;margin-bottom:18px}.controls{display:flex;justify-content:center;gap:12px;flex-wrap:wrap}.controls button{font-size:14px;padding:12px 20px;background:#e8f0eb;color:var(--ink);box-shadow:none}
+#medicalDecor,.confetti-layer{position:fixed;inset:0;pointer-events:none;overflow:hidden;z-index:1}.medical{position:absolute;opacity:.78;animation:floatMedical var(--dur,7s) ease-in-out infinite;animation-delay:var(--delay,0s);font-size:clamp(23px,3vw,38px);filter:drop-shadow(0 4px 3px #314b3b12)}@keyframes floatMedical{0%,100%{transform:translateY(10px) rotate(-8deg);opacity:.4}50%{transform:translateY(-18px) rotate(8deg);opacity:.9}}
+#fkTag{display:none;margin:0 auto 4px;padding:10px 18px;border:2px solid var(--sage);border-radius:12px;background:#edf7f0;color:#315e50;font-size:clamp(20px,4vw,28px);font-weight:900;letter-spacing:3px;width:max-content;box-shadow:0 5px 0 #c4dcd0;animation:fkPop .6s cubic-bezier(.2,1.6,.4,1)}#fkTag.visible{display:block}@keyframes fkPop{0%{transform:scale(.2) rotate(-10deg);opacity:0}100%{transform:scale(1) rotate(0);opacity:1}}
+.confetti{position:absolute;width:9px;height:14px;top:-20px;left:var(--x);background:var(--c);animation:burst var(--fall,1.8s) ease-out forwards;transform:rotate(var(--rot,0deg));border-radius:2px}@keyframes burst{0%{transform:translateY(0) translateX(0) rotate(0);opacity:1}100%{transform:translateY(105vh) translateX(var(--drift,40px)) rotate(720deg);opacity:0}}
+.end-note{display:none;font-size:clamp(20px,4vw,28px);line-height:1.6}.end-note.active{display:block}.end-note p{margin:10px 0 24px}.medical-caption{color:#78948a;font-size:12px;margin-top:18px}
+#interactiveMoment{display:none;min-height:150px;align-items:center;justify-content:center;flex-direction:column;gap:14px;padding:16px}#interactiveMoment.active{display:flex}#interactivePrompt{background:#e8f0eb;color:var(--ink);border:2px solid var(--sage);box-shadow:0 8px 20px #293b351c;font-size:clamp(20px,4vw,28px);max-width:100%;animation:gentlePulse 1.8s ease-in-out infinite}#interactiveHint{margin:0;color:#78948a;font-size:13px;letter-spacing:.2px;animation:fade 1.2s ease-in-out infinite alternate}@keyframes gentlePulse{0%,100%{transform:scale(1);box-shadow:0 8px 20px #293b351c}50%{transform:scale(1.035);box-shadow:0 10px 24px #6d938844}}#interactiveAnswer{display:none;font-family:Georgia,serif;font-size:clamp(28px,6vw,44px);font-weight:900;color:#315e50;cursor:pointer;padding:12px 18px;border-radius:18px;background:#edf7f0;border:2px dashed var(--sage)}#interactiveAnswer.visible{display:block}.shower-item{position:fixed;z-index:20;pointer-events:none;top:-60px;left:var(--x);font-size:var(--size);animation:showerFall var(--fall) linear forwards;filter:drop-shadow(0 3px 3px #293b3520)}@keyframes showerFall{to{transform:translateY(120vh) rotate(var(--spin));opacity:.9}}
+@media(max-width:480px){body{padding:12px}.container{padding:28px 18px;border-radius:22px}.message-box{min-height:180px}}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;scroll-behavior:auto!important}}
+</style></head>
+<body>
+<video id="localVideo" preload="auto" playsinline><source src="https://res.cloudinary.com/loxacuvo/video/upload/v1793203020/LAGU.mp4" type="video/mp4">Browser tidak mendukung pemutaran audio.</video>
+<div id="medicalDecor" aria-hidden="true"></div><div class="confetti-layer" id="confettiLayer" aria-hidden="true"></div>
+<main class="container">
+<section id="introScreen">
+<div class="quote">“ku tau kau bekerja sangat keras”<small>— Sal Priadi</small></div>
+<h1>congratss,<br>Fenisa</h1>
+<p class="intro-text">udah ngelewatin TKA. perjalanan masih panjang,<br>semangatt yaa mengejar mimpiinya 😆</p>
+<button id="startButton">ada sesuatu buat kamu ↗</button>
+</section>
+<section id="playerScreen" class="player">
+<div class="message-box"><div style="width:100%"><div id="fkTag">FK UNAIR one day yaa...</div><div id="lyricText" aria-live="polite"></div><div id="personalNote" style="display:none;margin:16px auto 0;font-size:clamp(17px,3vw,23px);line-height:1.5;color:#527367;font-weight:bold"></div><div id="interactiveMoment"><button id="interactivePrompt">FK F nya apa?</button><p id="interactiveHint">coba sentuh tulisannya 👀</p><div id="interactiveAnswer" role="button" tabindex="0">Fenisa 😭</div></div></div></div>
+<div class="progress"><div class="bar" id="progressBar"></div></div><div class="times"><span id="currentTime">0:00</span><span id="duration">3:26</span></div>
+<div class="controls"><button id="pauseButton">Ⅱ Jeda</button><button id="restartButton">↻ Ulangi</button></div>
+</section>
+<section id="endingScreen" class="end-note"><p>semoga menghibur yaa,<br>meski gaa seberapa☺️</p><button id="playAgainButton">Putar lagi dari awal</button></section>
+</main>
+<script>
+const video=document.getElementById('localVideo'),intro=document.getElementById('introScreen'),player=document.getElementById('playerScreen'),ending=document.getElementById('endingScreen');
+const lyric=document.getElementById('lyricText'),fkTag=document.getElementById('fkTag'),personalNote=document.getElementById('personalNote'),interactiveMoment=document.getElementById('interactiveMoment'),interactivePrompt=document.getElementById('interactivePrompt'),interactiveAnswer=document.getElementById('interactiveAnswer'),bar=document.getElementById('progressBar'),current=document.getElementById('currentTime'),duration=document.getElementById('duration'),pauseBtn=document.getElementById('pauseButton');
+// Lirik dipertahankan persis sesuai teks yang diberikan; timestamp mengikuti daftar terbaru.
+const messages=[
+{time:8,text:`Ayo, ayo, ayo
+Besok kita pergi makan`},
+{time:18,text:`Hadiah tak seberapa dariku karena Fenisa super membanggakan`},
+{time:27,text:`Ayo pergi ke tempat langganan, disajikannya menu-menu andalan
+Untukmu yang juara satu, idolaku s'lalu
+Di mata, hati, telingaku`},
+{time:46,text:`Ayo, ayo, ayo
+Besok kita pergi makan`},
+{time:55,text:`Hadiah tak seberapa dariku karena kamu (iya, kamu) super membanggakan`},
+{time:64,text:`Setelah perjalanan panjangmu yang pasti melelahkan itu..`},
+{time:72,text:`Letakkan sebentar kalau ada beban`},
+{time:76,text:`Kita senang-senang, makan-makan..`},
+{time:81,text:`T'rima kasih, ku tahu kau bekerja sangat keras...`},
+{time:92,text:`Lelahmu kebaikan yang sangat deras`},
+{time:101,text:`Hatimu kauserahkan banyak di sana...`},
+{time:109,text:`Tapi hatimu punya orang rumah juga..`},
+{time:118,text:`Sisakan untuk kami... sisa berapa pun juga tak apa
+Diterima`},
+{time:129,text:`ketok alay tapi yaweslah ya 😭😭😭`,special:true},
+{time:135,text:`ide ne ko aku dewe sih, sak wise aku sinau bindo trus aku ndelok soal TO nemu crita trus muncul ide ne`,special:true},
+{time:145,text:`moga seneng yaa`,special:true},
+{time:149,text:``,interactive:true},
+{time:164,text:`Sisakan untuk kami sisa berapa pun juga tak apa
+Diterima`},
+{time:175,text:`Ayo, ayo, ayo
+Besok kita pergi makan`},
+{time:185,text:`Hadiah tak seberapa dariku karena kamu selalu membahagiakan`},
+{time:194,text:`Ayo
+Besok kita pergi makan`},
+{time:206,text:``,end:true}
+];
+let currentIndex=-1,confettiTriggered=false;
+function fmt(s){if(!Number.isFinite(s))return '0:00';return Math.floor(s/60)+':'+String(Math.floor(s%60)).padStart(2,'0')}
+function screen(which){intro.style.display=which==='intro'?'block':'none';player.classList.toggle('active',which==='player');ending.classList.toggle('active',which==='ending')}
+function burstConfetti(){const layer=document.getElementById('confettiLayer');const colors=['#e8bd70','#7eafa0','#b8d6e5','#e9a7a7','#d5c5ef','#ffffff'];for(let i=0;i<190;i++){const bit=document.createElement('i');bit.className='confetti';bit.style.setProperty('--x',(Math.random()*100)+'vw');bit.style.setProperty('--c',colors[i%colors.length]);bit.style.setProperty('--fall',(1.2+Math.random()*1.8)+'s');bit.style.setProperty('--drift',((Math.random()-.5)*260)+'px');bit.style.setProperty('--rot',(Math.random()*360)+'deg');layer.appendChild(bit);setTimeout(()=>bit.remove(),3300)}for(let i=0;i<18;i++){const sparkle=document.createElement('span');sparkle.textContent=['✦','✧','✷','＋'][i%4];sparkle.style.cssText=`position:absolute;left:${Math.random()*100}vw;top:${10+Math.random()*65}vh;color:${colors[i%colors.length]};font-size:${18+Math.random()*25}px;animation:fade .8s ease-out forwards;`;layer.appendChild(sparkle);setTimeout(()=>sparkle.remove(),1000)}}
+
+function emojiShower(items,count=90){for(let i=0;i<count;i++){const el=document.createElement('span');el.className='shower-item';el.textContent=items[i%items.length];el.style.setProperty('--x',Math.random()*100+'vw');el.style.setProperty('--size',(22+Math.random()*32)+'px');el.style.setProperty('--fall',(2.1+Math.random()*2.6)+'s');el.style.setProperty('--spin',((Math.random()-.5)*900)+'deg');document.body.appendChild(el);setTimeout(()=>el.remove(),5000)}}
+function triggerInteractiveFlood(){emojiShower(['🩺','🩹','💊','🧬','🩻','💉','🏥','🧪','🩼','📋','🧫','🔬'],150);}
+function resetInteractive(){interactiveMoment.classList.remove('active');interactivePrompt.style.display='';interactiveAnswer.classList.remove('visible');interactivePrompt.disabled=false;interactiveAnswer.dataset.flooded='no';}
+
+function showMessage(i){if(i===currentIndex)return;currentIndex=i;const m=messages[i];lyric.classList.remove('show');void lyric.offsetWidth;lyric.textContent=m.text;lyric.style.whiteSpace='pre-line';lyric.classList.add('show');
+const inFkWindow=m.time===92;fkTag.classList.toggle('visible',inFkWindow);
+if(m.time===18&&!confettiTriggered){confettiTriggered=true;burstConfetti()}
+if(m.interactive){lyric.textContent='';lyric.classList.remove('show');resetInteractive();interactiveMoment.classList.add('active')}else{interactiveMoment.classList.remove('active')}
+if(m.end)screen('ending')}
+function updateLyrics(){const t=video.currentTime;let idx=-1;for(let i=0;i<messages.length;i++){if(t>=messages[i].time)idx=i;else break}if(idx>=0)showMessage(idx);else{currentIndex=-1;lyric.textContent='';fkTag.classList.remove('visible')}
+// Pesan motivasi tetap terlihat melewati transisi lirik 01:12–01:21.
+const note=t>=72&&t<81;personalNote.style.display=note?'block':'none';personalNote.textContent=note?'TKA baru permulaan yaa SEMANGATTT!!!!':'';
+const fk=t>=92&&t<101;fkTag.classList.toggle('visible',fk);if(fk&&Math.floor(t*2)!==Math.floor((t-0.12)*2)){/* visual shower is triggered once at entry below */}
+if(t>=92&&t<92.3&&window.lastFkShower!==true){emojiShower(['☺️','🩺','😎','👩‍🔬'],100);window.lastFkShower=true}if(t<92||t>=101)window.lastFkShower=false;
+if(t>=149&&t<164){interactiveMoment.classList.add('active')}else if(!(idx>=0&&messages[idx].interactive)){interactiveMoment.classList.remove('active')}
+if(t>=206){personalNote.style.display='none';screen('ending')}}
+async function start(){try{screen('player');if(video.ended||video.currentTime>=video.duration){video.currentTime=0;currentIndex=-1;confettiTriggered=false}await video.play();pauseBtn.textContent='Ⅱ Jeda'}catch(e){alert('Musik belum bisa diputar. Periksa koneksi internet atau URL lagu Cloudinary.') }}
+function restart(){video.pause();video.currentTime=0;currentIndex=-1;confettiTriggered=false;bar.style.width='0%';current.textContent='0:00';fkTag.classList.remove('visible');personalNote.style.display='none';window.lastFkShower=false;resetInteractive();interactiveAnswer.dataset.flooded='no';document.getElementById('confettiLayer').replaceChildren();screen('player');start()}
+interactivePrompt.addEventListener('click',()=>{interactivePrompt.style.display='none';interactiveAnswer.classList.add('visible')});
+function answerClick(){if(interactiveAnswer.dataset.flooded==='yes')return;interactiveAnswer.dataset.flooded='yes';triggerInteractiveFlood()}
+interactiveAnswer.addEventListener('click',answerClick);interactiveAnswer.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();answerClick()}});
+document.getElementById('startButton').addEventListener('click',start);document.getElementById('restartButton').addEventListener('click',restart);document.getElementById('playAgainButton').addEventListener('click',restart);
+pauseBtn.addEventListener('click',async()=>{if(video.paused){try{await video.play();pauseBtn.textContent='Ⅱ Jeda'}catch(e){alert('Musik belum bisa dilanjutkan. Periksa file MP4.')}}else{video.pause();pauseBtn.textContent='▶ Lanjutkan'}});
+video.addEventListener('loadedmetadata',()=>duration.textContent=fmt(video.duration));video.addEventListener('timeupdate',()=>{current.textContent=fmt(video.currentTime);if(video.duration>0)bar.style.width=(video.currentTime/video.duration*100)+'%';updateLyrics()});video.addEventListener('ended',()=>{screen('ending');bar.style.width='100%'});window.addEventListener('pageshow',()=>{video.pause();try{video.currentTime=0}catch(e){}currentIndex=-1;confettiTriggered=false;personalNote.style.display='none';window.lastFkShower=false;resetInteractive();interactiveAnswer.dataset.flooded='no';screen('intro')});
+// Lebih banyak dekorasi medis; tidak ada hati maupun tengkorak.
+const medical=['🩺','🩹','💊','🧬','🩻','💉','🏥','🧪','🩼','🩺','📋','🩹','💊','🧫','🔬','🩻','💉','🧪','🏥','📋','🩺','🧬','🩹','💊','🔬','🧫','🩻','💉'];const decor=document.getElementById('medicalDecor');medical.forEach((emoji,i)=>{const el=document.createElement('span');el.className='medical';el.textContent=emoji;el.style.left=(2+Math.random()*94)+'%';el.style.top=(4+Math.random()*90)+'%';el.style.setProperty('--dur',(5+Math.random()*8)+'s');el.style.setProperty('--delay',(-Math.random()*8)+'s');el.style.fontSize=(22+Math.random()*18)+'px';decor.appendChild(el)});
+</script></body></html>
